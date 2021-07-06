@@ -37,3 +37,38 @@ May you have an application that you like to share with others, like people to i
 It allows you to build an api in lot easier and quicker, that you cant do in just normal djando
 
 https://www.django-rest-framework.org/
+
+```
+$ pip install djangorestframework
+```
+
+add restframework in your installed-apps list inside main-project-settings file 
+
+The views in core
+```
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class TestView(APIView):
+    # when someone set the get rewuest
+    def get(self, request, *args, **kwargs):
+        data = {
+            'name' : 'sapan',
+            'age' : 23,
+            }
+        
+        return Response(data)
+```
+
+Add these views in app urls by
+```
+from django.urls import path
+from .views import TestView
+
+urlpatterns = [
+    path('', TestView.as_view(), name="test-view"),
+]
+```
+
+Add the app url to main-project url -> this will same 
