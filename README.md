@@ -72,3 +72,48 @@ urlpatterns = [
 ```
 
 Add the app url to main-project url -> this will same 
+
+# 01.
+
+Typically we use django models to represt the data that we want how to store in our database. So, there be some way that we can return the data in the database using the django rest_framework, that means somehow we need to get it from our models.
+
+Django rest_framework uses ```Serializer``` to do this. ```Serializer``` is basically a structre or representation of model or form and represent the data that you want to return in a json format or accept a json format. So we use those ```Serializer``` to transform our model to json.
+
+- create a file ```serializer.py``` in core app.
+
+```
+from rest_framework import serializers
+from .models import Post
+
+class PostSerial(serializer.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('title', 'description')
+```
+
+So basically this serializer represent the transformation between a Post model into a json payload that conatins 'title' and 'description' fields on that model
+
+the ```model.py``` file
+
+```
+from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __repr__(self):
+        return f"<Post(title='self.title')>"
+
+```
+
+Now we can this serializer in our views
+
+- To test apis very easily we use postman
+
+https://www.postman.com/
