@@ -6,6 +6,41 @@ from .models import Post
 
 # authentications
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+from rest_framework import mixins
+
+class PostView(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView
+    ):
+    # the GenericAPIView itself insrits from APIView
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, * args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class PostCreateView(
+    mixins.ListModelMixin,
+    generics.GenericAPIView
+    ):
+    
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+
+class PostListCreateView(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
 
 # APIView is one of the warppers that allow to create a api view that accepts cretain request methods 
 # either get request or a post request, and all the otehr types of methods
@@ -13,25 +48,25 @@ from rest_framework.permissions import IsAuthenticated
 # instead of creating functions, we create a class. Because APIView is something which inherit in
 # our own classes
 
-class TestView(APIView):
-    permission_classes = (IsAuthenticated,)
+# class TestView(APIView):
+#     permission_classes = (IsAuthenticated,)
     
-    # when someone set the get rewuest
-    def get(self, request, *args, **kwargs):
-        queryset = Post.objects.all()
-        # serializer = PostSerializer(queryset, many=True)
-        post = queryset.first()
-        serializer = PostSerializer(post)
-        return Response(serializer.data)
+#     # when someone set the get rewuest
+#     def get(self, request, *args, **kwargs):
+#         queryset = Post.objects.all()
+#         # serializer = PostSerializer(queryset, many=True)
+#         post = queryset.first()
+#         serializer = PostSerializer(post)
+#         return Response(serializer.data)
         
     
-    def post(self, request, *args, **kwargs):
-        serializer = PostSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+#     def post(self, request, *args, **kwargs):
+#         serializer = PostSerializer(data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors)
         
         
 # Basically we want to demonsttarte how to use, a serializer in two ways

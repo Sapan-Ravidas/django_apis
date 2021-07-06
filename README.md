@@ -150,3 +150,19 @@ To user TokenAuthentication we need to add ```rest_framework.authtoken``` in our
 $ pip install django-rest-auth
 ```
 and add to our app list
+
+# 03. More rest_framewok views
+
+We are gong to use generics rest api view
+- import generics in app views file
+
+### Mixins:
+
+Mixins are basically containers of functionality, you can include your classes to inherit all of that some sort of functionality
+
+if we are using mixin, it always get inherit before the class 
+
+```
+from rest_framework import mixins
+
+```
