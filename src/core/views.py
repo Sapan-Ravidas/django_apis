@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from .serializer import PostSerializer
 from .models import Post
 
+# authentications
+from rest_framework.permissions import IsAuthenticated
+
 # APIView is one of the warppers that allow to create a api view that accepts cretain request methods 
 # either get request or a post request, and all the otehr types of methods
 
@@ -11,6 +14,8 @@ from .models import Post
 # our own classes
 
 class TestView(APIView):
+    permission_classes = (IsAuthenticated,)
+    
     # when someone set the get rewuest
     def get(self, request, *args, **kwargs):
         queryset = Post.objects.all()

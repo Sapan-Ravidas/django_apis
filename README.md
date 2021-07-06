@@ -117,3 +117,36 @@ Now we can this serializer in our views
 - To test apis very easily we use postman
 
 https://www.postman.com/
+
+&nbsp;
+
+# 02. Authentications
+
+rest_framework.permisssions
+
+- Allowany -> allows anyone to make a request to the end point
+- IsAdminuser
+- IsAuthenticated
+- IsAuthenticatedOrReadOnly
+
+To user TokenAuthentication we need to add ```rest_framework.authtoken``` in our installed app list in settings.py file
+
+- to clear all in the database 
+
+    run 
+    ```
+    $ python manage.py flush
+    ```
+
+- now create a new superuser.
+
+- one very easy way to create a token for our admin user is just by 
+    ```
+    $ python manage.py drf_create_token <superusername>
+    ```
+
+- for token authentication we'll user ```django_rest_auth```
+```
+$ pip install django-rest-auth
+```
+and add to our app list
